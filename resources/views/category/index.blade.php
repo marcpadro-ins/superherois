@@ -13,12 +13,12 @@
 
     <div class="container mt-5">
         <h1>Categories</h1>
-        <a href="{{ route('category.create') }}" class="btn btn-primary mb-3">Create category</a>
+        <a href="{{ route('category.create') }}" class="btn btn-primary mb-3">Crear categoria</a>
         <table class="table table-bordered">
             <thead class="thead-dark">
                 <tr>
-                    <th>Name</th>
-                    <th>Actions</th>
+                    <th>Nom</th>
+                    <th>Accions</th>
                 </tr>
             </thead>
             <tbody>

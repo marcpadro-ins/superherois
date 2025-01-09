@@ -10,18 +10,7 @@ class Lang extends Model
 {
     use HasFactory;
 
-    // protected $fillable = ['code'];
-
-    // /**
-    //  * Relació many-to-many amb Category a través de CategoryLang.
-    //  */
-    // public function categories() : BelongsToMany
-    // {
-    //     return $this->belongsToMany(Category::class, 'category_lang', 'lang_id', 'category_id');
-    // }
-
     protected $fillable = ['code', 'name'];
-
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

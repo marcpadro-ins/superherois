@@ -11,11 +11,11 @@
     @include('navbar')
 
     <div class="container mt-5">
-        <h1 class="mb-4">Create translation</h1>
+        <h1 class="mb-4">Crear traducció</h1>
         <form action="{{ route('translate.translate') }}" method="POST">
             @csrf
             <div class="form-group">    
-                <label for="language_id">Select language:</label>
+                <label for="language_id">Escollir idioma:</label>
                 <select name="language_id" class="form-control">
                     @foreach($languages as $language)
                         <option value="{{ $language->id }}">{{ $language->name }}</option>
@@ -24,7 +24,7 @@
             </div>
 
             <div class="form-group">
-                <label for="category_id">Select category:</label>
+                <label for="category_id">Escollir categoria:</label>
                 <select name="category_id" class="form-control">
                     @foreach($categories as $category)
                         <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -33,11 +33,11 @@
             </div>
 
             <div class="form-group">
-                <label for="name">Translation:</label>
+                <label for="name">Traducció:</label>
                 <input type="text" name="name" class="form-control" value="">
             </div>
 
-            <button type="submit" class="btn btn-primary">Translate</button>
+            <button type="submit" class="btn btn-primary">Traduïr</button>
         </form>
 
         <br>
@@ -45,9 +45,9 @@
         <table class="table table-bordered">
             <thead class="thead-dark">
                 <tr>
-                    <th>Category</th>
-                    <th>Language</th>
-                    <th>Translation</th>
+                    <th>Categoria</th>
+                    <th>Idioma</th>
+                    <th>Traducció</th>
                     <th></th>
                 </tr>
             </thead>
@@ -61,7 +61,7 @@
                             <form action="{{ route('translate.destroy', $pivot->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Delete</button>
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
                             </form>
                         </td>
                     </tr>

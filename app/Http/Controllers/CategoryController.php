@@ -80,7 +80,7 @@ class CategoryController extends Controller
     // {
     //     $languages = Lang::all();
     //     $categories = Category::all();
-    //     // $middle = DB::table('category_lang')->get();
+    //     $middle = DB::table('category_lang')->get();
 
     //     return view('translate.translate', compact('languages', 'categories'));
     // }
