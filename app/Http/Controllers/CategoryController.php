@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers;
 
-// use App\Models\Category;
-// use App\Models\Lang;
-// use Illuminate\Support\Facades\DB;
-// use App\Http\Requests\StoreCategoryRequest;
-// use App\Http\Requests\UpdateCategoryRequest;
-// use Illuminate\View\View;
+use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -33,7 +29,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        $category = new Category();
+
+        return view('category.create', compact('category'));
     }
 
     /**
@@ -41,7 +39,21 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $category = new Category();
+        $category->name = $request->name;
+        $category->save();
+
+        $englishLang = Lang::where('code', 'en')->first();
+
+        if ($englishLang) {
+            $category->langs()->attach($englishLang->id, ['name' => $category->name, 'created_at' => now(), 'updated_at' => now()]);
+        }
+
+        return redirect()->route('category.index');
     }
 
     /**
@@ -49,7 +61,15 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        $languages = DB::table('category_lang')
+            ->join('langs', 'category_lang.lang_id', '=', 'langs.id')
+            ->where('category_lang.category_id', $category->id)
+            ->get(['langs.code as lang_code', 'category_lang.name']);
+
+        return view('category.show', [
+            'category' => $category,
+            'languages' => $languages,
+        ]);
     }
 
     /**
@@ -57,7 +77,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('category.edit', compact('category'));
     }
 
     /**
@@ -65,7 +85,14 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $category->name = $request->name;
+        $category->save();
+
+        return redirect()->route('category.index');
     }
 
     /**
@@ -73,17 +100,11 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        return Redirect::route('category.index')
+            ->with('success', 'Category deleted successfully');
     }
-
-    // public function translate() : View 
-    // {
-    //     $languages = Lang::all();
-    //     $categories = Category::all();
-    //     $middle = DB::table('category_lang')->get();
-
-    //     return view('translate.translate', compact('languages', 'categories'));
-    // }
 
     public function translate(): View
     {
@@ -106,9 +127,8 @@ class CategoryController extends Controller
             ->with('success', 'Category translated successfully');
     }
 
-    public function destroyTranslate(Lang $lang): RedirectResponse
+    public function destroyTranslate(Category $category, Lang $lang): RedirectResponse
     {
-        $category = Category::find($lang->pivot->category_id);
         $category->langs()->detach($lang->id);
 
         return Redirect::route('translate.translate')

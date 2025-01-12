@@ -12,7 +12,7 @@
     @include('navbar')
 
     <div class="container mt-5">
-        <h1>Categories</h1>
+        <h1>Llistat de categories</h1>
         <a href="{{ route('category.create') }}" class="btn btn-primary mb-3">Crear categoria</a>
         <table class="table table-bordered">
             <thead class="thead-dark">

@@ -45,8 +45,8 @@
         <table class="table table-bordered">
             <thead class="thead-dark">
                 <tr>
-                    <th>Categoria</th>
                     <th>Idioma</th>
+                    <th>Categoria</th>
                     <th>Traducció</th>
                     <th></th>
                 </tr>
@@ -58,7 +58,7 @@
                         <td>{{ App\Models\Category::find($pivot->category_id)->name }}</td>
                         <td>{{ $pivot->name }}</td>
                         <td>
-                            <form action="{{ route('translate.destroy', $pivot->id) }}" method="POST">
+                            <form action="{{ route('translate.destroy', ['category' => $pivot->category_id, 'lang' => $pivot->lang_id]) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Eliminar</button>
